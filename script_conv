@@ -1,0 +1,14 @@
+#!/bin/bash
+
+f=`find -name \*.pdf`
+
+for file in $f 
+do
+	file_ready=`echo ${file} | sed -e 's/.pdf$//' | sed -e 's/.PDF$//'`
+	file_ready=${file_ready}.tiff
+	gs -q -dNOPAUSE -r300x300 -sDEVICE=tiffgray -sOutputFile=${file_ready} ${file} -c quit
+done
+
+mkdir ready
+chmod -R 777 ready
+mv *.tiff ready/
